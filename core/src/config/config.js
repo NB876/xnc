@@ -4,8 +4,10 @@ const process = require('node:process');
  */
 
 const DEFAULT_SYSTEM_CONFIG = {
-    serverUrl: 'wss://gate-obt.nqf.qq.com/prod/ws',
-    clientVersion: '1.11.1.7_20260425',
+    // 🔥 这是正式服地址（别人用的就是这个！）
+    serverUrl: 'wss://gate-nqf.qq.com/prod/ws',
+    // 🔥 这是最新可用版本号（修复版本过低！）
+    clientVersion: '1.12.0.11_20260425',
     platform: 'qq',
     os: 'iOS',
 };
@@ -23,7 +25,7 @@ const CONFIG = {
     friendCheckIntervalMin: 12000,
     friendCheckIntervalMax: 15000,
     adminPort: Number(process.env.PORT) || 3007,
-    adminPassword: process.env.ADMIN_PASSWORD,
+    adminPassword: process.env.ADMIN_PASSWORD || 'admin',
 };
 
 function updateRuntimeConfig(newConfig) {
@@ -54,7 +56,6 @@ function getDefaultSystemConfig() {
     return { ...DEFAULT_SYSTEM_CONFIG };
 }
 
-// 生长阶段枚举
 const PlantPhase = {
     UNKNOWN: 0,
     SEED: 1,
