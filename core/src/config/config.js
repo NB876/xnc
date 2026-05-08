@@ -22,7 +22,7 @@ const CONFIG = {
     farmCheckIntervalMax: 5000,
     friendCheckIntervalMin: 12000,
     friendCheckIntervalMax: 15000,
-    adminPort: Number(process.env.ADMIN_PORT),
+    adminPort: Number(process.env.PORT) || 3007,
     adminPassword: process.env.ADMIN_PASSWORD,
 };
 
