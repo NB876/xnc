@@ -215,7 +215,7 @@ function formatGrowTime(seconds) {
     if (seconds < 60) return `${seconds}秒`;
     if (seconds < 3600) return `${Math.floor(seconds / 60)}分钟`;
     const hours = Math.floor(seconds / 3600);
-    const mins = Math.floor((seconds % 3600) / 60);
+    const mins = Math.floor((seconds % 360) / 60);
     return mins > 0 ? `${hours}小时${mins}分` : `${hours}小时`;
 }
 
@@ -272,10 +272,20 @@ function getMappedSeedImage(targetId) {
     return seedAssetImageMap.get(assetName) || '';
 }
 
+// 改完的 getSeedImageBySeedId
 function getSeedImageBySeedId(seedId) {
-    return getMappedSeedImage(seedId);
+    // 南瓜活动变异种子的图标 fallback，找不到时用普通哈哈南瓜的图标
+    const pumpkinSeedIds = [29998, 29999, 30000];
+    const id = Number(seedId) || 0;
+    let img = getMappedSeedImage(id);
+    if (!img && pumpkinSeedIds.includes(id)) {
+        // 找不到专属图标时， fallback 到普通哈哈南瓜的图标
+        img = getMappedSeedImage(29998);
+    }
+    return img;
 }
 
+// 改完的 getItemImageById
 function getItemImageById(itemId) {
     const id = Number(itemId) || 0;
     if (id <= 0) return '';
@@ -304,6 +314,12 @@ function getItemImageById(itemId) {
     const plant = getPlantByFruitId(id);
     if (plant && plant.seed_id) {
         img = getImg(plant.seed_id);
+        if (img) return img;
+    }
+    // 3. 南瓜活动变异物品的图标 fallback
+    const pumpkinItemIds = [29998, 29999, 30000, 30001, 30002, 30003];
+    if (pumpkinItemIds.includes(id)) {
+        img = getImg(29998);
         if (img) return img;
     }
 
